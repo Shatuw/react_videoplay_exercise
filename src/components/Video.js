@@ -6,31 +6,36 @@ export default function Video () {
 //const sampleVid="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
 const [windFwd, setWindFwd] = useState(false);
 const [windBwd, setWindBwd] = useState(false);
+
+const intervalId = useRef(null);//keep winding interval in a useRef
 //playing?:
 const [isPlaying, setIsPlaying] = useState(false);
+
 const videoRef = useRef(null);
-
-// let intervalFwd;
-// let intervalBwd;
-const [intervalId, setIntervalId] = useState(null);
-
-// useEffect(() => {
-//     return () => {
-//         clearInterval(intervalBwd);
-//         clearInterval(intervalBwd);
-//     }
-// },[windFwd,windBwd])
 
 //playbtn-func:
 const togglePlay = () => {
-    if (isPlaying) {
+    
+    clearInterval(intervalId.current);//stop winding
+    setWindBwd(false);
+    setWindFwd(false);
+
+    if (isPlaying) {//play or pause
         videoRef.current.pause();
     } else {
+        if(videoRef.current.currentTime === videoRef.current.duration){
+            videoRef.current.currentTime = 0;
+        }
         videoRef.current.play();
     }
     setIsPlaying(!isPlaying);
 };
-// progressstate:
+const replay = () => {
+    if (videoRef.current.currentTime === videoRef.current.duration){
+        setIsPlaying(false);
+    }
+}
+// progressBar-state:
 const [progress, setProgress] = useState(0);
 
 const handleProgress = () => {
@@ -38,26 +43,26 @@ const handleProgress = () => {
     const currentTime = videoRef.current.currentTime;
     const progress = (currentTime / duration) * 100;
     setProgress(progress);
+    replay();
 };
 
 const toggleStop = () => {
     videoRef.current.pause();
     videoRef.current.currentTime = 0;
     setIsPlaying(false)
-    // clearInterval(intervalBwd);
-    // clearInterval(intervalFwd);
+    clearInterval(intervalId.current);
+    
 }
-//-------------------------Khatuna------------------
+//......spaghetti on:
 const handleButtonMouseUp = () => {
-    clearInterval(intervalId);
-    setIntervalId(null);
+    clearInterval(intervalId.current);
 };
 const windBackward = () => {
     if (videoRef.current.currentTime > 1){    
     videoRef.current.currentTime -= 1; // Adjust the value to your desired backward duration
     }
     else{
-        clearInterval(intervalId);
+        clearInterval(intervalId.current);
     }
 };
 
@@ -66,32 +71,30 @@ const windForward = () => {
     videoRef.current.currentTime += 1; // Adjust the value to your desired forward duration
     }
     else{
-        clearInterval(intervalId);
+        clearInterval(intervalId.current);
     }
 };
 
 const handleBackwardMouseDown = () => {
-    clearInterval(intervalId);
-    const id = setInterval(windBackward, 200); // Adjust the interval duration as needed
-    setIntervalId(id);
+    clearInterval(intervalId.current);
+    intervalId.current = setInterval(windBackward, 200); // Adjust the interval duration as needed
+     
   };
   const handleForwardMouseDown = () => {
-    clearInterval(intervalId);
-    const id = setInterval(windForward, 200); // Adjust the interval duration as needed
-    setIntervalId(id);
+    clearInterval(intervalId.current);
+    intervalId.current = setInterval(windForward, 200); // Adjust the interval duration as needed
   };
 
-  // do it with only 1 event : "onClick" ... dont work ... ';...;'
+  //onClick-winding backward or forward (4. try: i demand working now!)
   const vorw = () => {
     if (windFwd || windBwd){
-        console.log('inside if');
         handleButtonMouseUp()
         setWindFwd(false);
         setWindBwd(false);
     }
     else{
-        console.log('inside else');
         handleForwardMouseDown()
+        setWindFwd(true);
     }
   }
   const zuruck = () => {
@@ -102,62 +105,9 @@ const handleBackwardMouseDown = () => {
     }
     else{
         handleBackwardMouseDown()
+        setWindBwd(true);
     }
   }
-//----interval-functionality (going backward)----
-// const windBackward = () => {
-//     if (videoRef.current.currentTime <= 1){
-//         toggleStop();//defined above (for the stop-button)
-//     }
-//     else{
-//         videoRef.current.currentTime -= 1; //3 in seconds as "3s"
-//     }
-// };//end----function
-// //----interval-functionality (going forward)(same but diffenrent)----
-// const windForward = () => {
-//     if(videoRef.current.currentTime >= videoRef.current.duration - 1){
-//         toggleStop();
-//     }
-//     else{
-//         videoRef.current.currentTime += 1;
-//     }
-// };//end----function
-
-//----backward-function----
-// const mediaBackward = () => {
-//     clearInterval(intervalFwd);
-       
-//     if (windBwd) {
-//         clearInterval(intervalBwd);
-//         videoRef.current.pause();// let it play again
-//         setWindBwd(false);
-//     }
-//     else{// start winding backwards
-//         videoRef.current.pause();
-//         setWindBwd(true);
-//         intervalBwd = setInterval(windBackward, 500);
-//     }
-// };//end---function
-
-// // //----foward-function (same but different)----
-// const mediaForward = () => {
-//     clearInterval(intervalBwd);
-//     intervalFwd = setInterval(windForward, 500);
-
-//     if(windFwd){
-//         setWindFwd(false);
-//         videoRef.current.pause();
-//         console.log('iam in if now');
-//         clearInterval(intervalFwd);
-//         return;
-//     }
-//     else{
-//         videoRef.current.pause();
-//         setWindFwd(true);//state
-//     }
-// };//end-function
-
-
     return (
         <div>
             <video 
@@ -169,7 +119,7 @@ const handleBackwardMouseDown = () => {
             </video>
             <div>
                 <button onClick={togglePlay}>
-                    {isPlaying ? "Pause" : "Play"}
+                     {isPlaying ? "Pause" : "Play"}
                 </button>
                 <button onClick={toggleStop}>Stop</button>
                 <progress value={progress} max="100" />
