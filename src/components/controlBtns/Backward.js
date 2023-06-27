@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBackward } from '@fortawesome/free-solid-svg-icons';
 
 export default function Backward({videoRef,intervalId,windBwd,windFwd,setWindBwd,setWindFwd}) {
     const windBackward = () => {//wind-interval-func (backward)
@@ -24,6 +26,8 @@ export default function Backward({videoRef,intervalId,windBwd,windFwd,setWindBwd
       };//end func
 
 return (
-    <button onClick={zuruck}>Backward</button>
+    <button onClick={zuruck}>
+      <FontAwesomeIcon icon={faBackward} size="2xl" style={{color: "brown",}} />
+    </button>
   )
 }

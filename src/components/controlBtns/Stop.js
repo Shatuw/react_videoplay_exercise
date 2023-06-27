@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStop } from '@fortawesome/free-solid-svg-icons';
 import React from 'react'
 
 export default function Stop({videoRef,setIsPlaying,intervalId}) {
@@ -10,6 +12,8 @@ export default function Stop({videoRef,setIsPlaying,intervalId}) {
     };//end func
 
   return (
-    <button onClick={toggleStop}>Stop</button>
+    <button onClick={toggleStop}>
+      <FontAwesomeIcon icon={faStop} size="2xl" style={{color: "red",}} />
+    </button>
   )
 }

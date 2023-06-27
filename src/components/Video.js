@@ -19,11 +19,11 @@ const handleProgress = () => {// progressBar-func onTimeUpdate from video/browse
     };
 };// end func
   
+
     return (
-        <div>
+        <div className='player'>
             <video 
                 ref={videoRef}
-                width="50%" 
                 onTimeUpdate={handleProgress}
             >
                 <source src={videoAddress} type="video/mp4" />

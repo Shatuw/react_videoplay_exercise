@@ -4,6 +4,7 @@ import Stop from './controlBtns/Stop';
 import Forward from './controlBtns/Forward';
 import Backward from './controlBtns/Backward';
 import Progress from './controlBtns/Progress';
+import SoundBtn from './controlBtns/SoundBtn';
 
 export default function Controls({videoRef,progress,isPlaying,setIsPlaying}) {
   const intervalId = useRef(null);//keep winding interval in a useRef
@@ -13,7 +14,7 @@ export default function Controls({videoRef,progress,isPlaying,setIsPlaying}) {
   const [windBwd, setWindBwd] = useState(false);
 
  return (
-    <div>
+    <div className='controls'>
       <Play 
         videoRef={videoRef} 
         isPlaying={isPlaying} 
@@ -27,7 +28,6 @@ export default function Controls({videoRef,progress,isPlaying,setIsPlaying}) {
         setIsPlaying={setIsPlaying} 
         intervalId={intervalId}
       />
-      <Progress progress={progress}/>
       <Backward 
         videoRef={videoRef} 
         intervalId={intervalId}
@@ -44,6 +44,8 @@ export default function Controls({videoRef,progress,isPlaying,setIsPlaying}) {
         setWindBwd={setWindBwd}
         setWindFwd={setWindFwd}
       />
+      <Progress progress={progress}/>
+      <SoundBtn videoRef={videoRef}/>
     </div>
   )
 }

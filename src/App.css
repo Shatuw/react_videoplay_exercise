@@ -1,5 +1,81 @@
 .App{
   margin:0 auto;
   font-family: fantasy;
-  text-align: center;
+  background-color: lightgray;
+  height: 100vh;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+progress{
+  display: block;
+  background-color: transparent;
+  border: none;
+  border-radius: 999px;
+  -webkit-appearance: none;
+  accent-color:lightblue;
+  min-width: 3rem;
+  min-height: 3rem;
+  opacity: 0.5;
+}
+progress::-webkit-progress-bar{
+  display: block;
+  background-color: transparent;
+  border: none;
+  border-radius: 9999px;
+  min-width: 3rem;
+  min-height: 3rem;
+}
+progress::-webkit-progress-value{
+  background-color:lightblue;
+}
+progress::-moz-progress-bar{
+  display: inline-block;
+  background-color: lightblue;
+  min-width: 2rem;
+  min-height: 2rem;  
+}
+button{
+  padding: 0;
+  display: inline-block;
+  border:none;
+  border-radius: 1rem;
+  min-width: 3rem;
+  min-height: 3rem;
+  background-color: lightblue;
+  opacity: 0.5;
+}
+video{
+  border: 1px solid black;
+  border-radius: 1.5rem;
+  width: 800px;
+  padding: 10px;
+  margin: 0;
+}
+.player{
+  /* border: 2px solid red; */
+  position: relative;
+}
+.controls{
+  visibility: hidden;
+  position: absolute;
+  width: 400px;
+  left:50%;
+  margin-left: -200px;
+  bottom: 2em;
+  /* border: 5px solid lightblue;
+  border-radius: 999px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+button:hover{
+  opacity: 1;
+}
+.player:hover .controls
+{
+  visibility: visible;
 }

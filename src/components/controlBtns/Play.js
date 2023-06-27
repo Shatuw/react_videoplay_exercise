@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlay,faPause } from '@fortawesome/free-solid-svg-icons';
 
 export default function Play({videoRef,isPlaying,setWindBwd,setWindFwd,intervalId,setIsPlaying}) {
 
@@ -24,6 +25,12 @@ export default function Play({videoRef,isPlaying,setWindBwd,setWindFwd,intervalI
     };//end func
 
   return (
-    <button onClick={togglePlay}>{isPlaying ? "Pause" : "Play"}</button>
+    <button onClick={togglePlay}>
+      {isPlaying ?  
+      <FontAwesomeIcon icon={faPause} size="2xl" style={{color: 'grey',}} />
+      : 
+      <FontAwesomeIcon icon={faCirclePlay} size="2xl" style={{color: "green",}} />
+      }
+    </button>
   )
 }

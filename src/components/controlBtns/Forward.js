@@ -1,4 +1,6 @@
 import React from 'react'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faForward } from '@fortawesome/free-solid-svg-icons';
 
 export default function Forward({videoRef,intervalId,windBwd,windFwd,setWindBwd,setWindFwd}) {
 
@@ -25,6 +27,8 @@ export default function Forward({videoRef,intervalId,windBwd,windFwd,setWindBwd,
     };//end func
 
     return (
-    <button onClick={vorw}>Forward</button>
+    <button onClick={vorw}>
+      <FontAwesomeIcon icon={faForward} size="2xl" style={{color: "olive",}} />
+    </button>
   )
 }
